@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donor Profile Completion | Smart Blood Bank Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Updated Typography */
+        body {
+            background-color: #fff5f5; /* Light Red/Pink */
+            color: #333;
+            font-family: 'Lato', sans-serif; /* Body font */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif; /* Heading font */
+        }
+
+        /* Header */
+        header {
+            background-color: #c1121f;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-bottom-left-radius: 8px; /* Slight roundness */
+            border-bottom-right-radius: 8px;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-height: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #c1121f;
+        }
+
+        #welcomeMessage {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        /* Form Styling */
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus {
+            border-color: #c1121f;
+            box-shadow: 0 0 5px rgba(193, 18, 31, 0.3);
+            outline: none;
+        }
+
+        /* Button Styling */
+        .btn {
+            width: 100%;
+            margin-top: 20px;
+            background-color: #c1121f;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .btn:hover {
+            background-color: #a10d19;
+            transform: scale(1.02);
+        }
+
+        /* Back link */
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #c1121f;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Progress indicator */
+        .progress {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .progress .step {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 15px;
+            background-color: #f0f0f0;
+        }
+
+        .progress .step.active {
+            background-color: #c1121f;
+            color: white;
+        }
+
+        .progress .step.completed {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Smart Blood Bank Management System</h1>
+        <nav>
+            <ul style="list-style: none; display: flex; gap: 25px; align-items: center;">
+                <li><a href="index.html" style="color: white; text-decoration: none; font-weight: 600;"><i class="fas fa-home"></i> Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="progress">
+            <span class="step completed">1. Account Setup</span>
+            <span class="step active">2. Medical Profile</span>
+        </div>
+
+        <h2>Complete Your Donor Profile</h2>
+        <p id="welcomeMessage"></p>
+        
+        <form id="profileForm">
+            <label for="age">Age (Must be 18-60):</label>
+            <input type="number" id="age" min="18" max="60" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="bloodGroup">Blood Group:</label>
+            <select id="bloodGroup" required>
+                <option value="">Select Blood Group</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
+
+            <label for="location">City/Area:</label>
+            <input type="text" id="location" placeholder="Enter your city or area" required>
+            
+            <label for="medicalIssues">Medical History/Current Issues:</label>
+            <textarea id="medicalIssues" placeholder="Please describe any current medical conditions, medications, or health issues. If none, write 'None' or 'Healthy'" 
+                style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; min-height: 80px; resize: vertical; font-family: inherit;" required></textarea>
+            <small style="color: #666; font-size: 0.9rem; margin-top: -10px; display: block; margin-bottom: 15px;">
+                <i class="fas fa-info-circle"></i> Note: Final fitness will be assessed during donation appointment by medical staff.
+            </small>
+
+            <button type="button" class="btn" onclick="completeProfile()">
+                <i class="fas fa-check-circle"></i> Finalize Profile & Go to Dashboard
+            </button>
+        </form>
+
+        <div class="back-link">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000/api';
+        
+        // Retrieve ID/Name from temporary storage (like session storage)
+        const currentUserId = sessionStorage.getItem('currentUserId');
+        const currentUserName = sessionStorage.getItem('currentUserName');
+
+        // Check if user data exists
+        if (!currentUserId || !currentUserName) {
+            alert("Error: Missing user session data. Please register or log in again.");
+            window.location.href = 'index.html';
+        } else {
+            document.getElementById('welcomeMessage').textContent = `Welcome, ${currentUserName}! Please complete your medical profile to activate your donor account.`;
+        }
+
+        // Function to submit the profile details
+        async function completeProfile() {
+            if (!currentUserId) {
+                alert("Error: Missing user session data. Please log in again.");
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const age = document.getElementById("age").value;
+            const gender = document.getElementById("gender").value;
+            const bloodGroup = document.getElementById("bloodGroup").value;
+            const location = document.getElementById("location").value.trim();
+            const medicalIssues = document.getElementById("medicalIssues").value.trim();
+
+            if (age < 18 || age > 60 || !gender || !bloodGroup || !location || !medicalIssues) {
+                alert("Please fill all mandatory fields correctly. Age must be between 18-60.");
+                return;
+            }
+
+            // Determine medical status based on medical issues input
+            const medicalStatus = (medicalIssues.toLowerCase() === 'none' || 
+                                 medicalIssues.toLowerCase() === 'healthy' || 
+                                 medicalIssues.toLowerCase().includes('no medical') ||
+                                 medicalIssues.toLowerCase().includes('no health')) ? 'Fit' : 'Requires Assessment';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/complete-donor-profile`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        userId: currentUserId, 
+                        age: parseInt(age), 
+                        gender, 
+                        bloodGroup, 
+                        location, 
+                        medicalStatus,
+                        medicalIssues 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message || "Profile finalized successfully! Welcome to the donor community.");
+                    // Keep session data for dashboard access
+                    window.location.href = 'donor_dashboard.html'; // Redirect to the dashboard
+                } else {
+                    alert("Profile finalization failed: " + (data.error || "Server error occurred."));
+                }
+            } catch (error) {
+                console.error('Profile Completion Network Error:', error);
+                alert("Critical Error: Cannot connect to the backend server. Please try again.");
+            }
+        }
+
+        // Prevent form submission on Enter key
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            completeProfile();
+        });
+    </script>
+</body>
+</html>

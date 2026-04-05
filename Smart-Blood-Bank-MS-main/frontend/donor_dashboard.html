@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard | Smart Blood Bank Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #c1121f 0%, #a10d19 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .welcome-title {
+            color: #c1121f;
+            margin-bottom: 10px;
+        }
+
+        .welcome-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon.donations { color: #c1121f; }
+        .stat-icon.lives { color: #28a745; }
+        .stat-icon.next { color: #007bff; }
+        .stat-icon.status { color: #ffc107; }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .card-title {
+            color: #c1121f;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        /* Donation History Table */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .history-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-completed { background-color: #d4edda; color: #155724; }
+        .status-scheduled { background-color: #d1ecf1; color: #0c5460; }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: linear-gradient(135deg, #c1121f 0%, #a10d19 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 18, 31, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+        }
+
+        .action-btn.secondary:hover {
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.3);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .action-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Eligibility Status */
+        .eligibility-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .eligibility-status {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .eligible { color: #28a745; }
+        .not-eligible { color: #dc3545; }
+
+        .next-donation-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Urgent Requests */
+        .urgent-requests {
+            margin-top: 20px;
+        }
+
+        .request-item {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .request-header {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 5px;
+        }
+
+        .request-details {
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #c1121f;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #c1121f;
+            box-shadow: 0 0 0 3px rgba(193, 18, 31, 0.1);
+        }
+
+        /* Status badges for appointments */
+        .status-scheduled {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                Smart Blood Bank Management
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <div id="userName">Loading...</div>
+                    <div style="font-size: 0.8rem; opacity: 0.8;">Blood Donor</div>
+                </div>
+                <a href="index.html" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1 class="welcome-title">Welcome to Your Donor Dashboard</h1>
+            <p class="welcome-subtitle">Thank you for being a life-saver! Track your donations and schedule new appointments.</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon donations">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="stat-number" id="totalDonations">-</div>
+                <div class="stat-label">Total Donations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon lives">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="stat-number" id="livesSaved">-</div>
+                <div class="stat-label">Lives Potentially Saved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon next">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="stat-number" id="nextDonation">-</div>
+                <div class="stat-label">Next Eligible Date</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon status">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="stat-number" id="healthStatus">-</div>
+                <div class="stat-label">Health Status</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Donation History -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-history"></i> Donation History
+                    </h3>
+                </div>
+                <div id="donationHistory">
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        <div>Loading donation history...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions & Eligibility -->
+            <div>
+                <!-- Eligibility Status -->
+                <div class="card eligibility-card" style="margin-bottom: 20px;">
+                    <h3 class="card-title" style="margin-bottom: 15px;">
+                        <i class="fas fa-check-circle"></i> Donation Eligibility
+                    </h3>
+                    <div class="eligibility-status eligible" id="eligibilityStatus">
+                        Checking...
+                    </div>
+                    <div class="next-donation-date" id="eligibilityDetails">
+                        Loading eligibility status...
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-bolt"></i> Quick Actions
+                        </h3>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="action-btn" id="scheduleDonationBtn" onclick="scheduleDonation()">
+                            <i class="fas fa-calendar-plus"></i>
+                            Schedule New Donation
+                        </button>
+                        <button class="action-btn secondary" onclick="updateProfile()">
+                            <i class="fas fa-user-edit"></i>
+                            Update Profile
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Urgent Blood Requests -->
+                <div class="card urgent-requests" id="urgentRequestsCard" style="display: none;">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-exclamation-triangle"></i> Urgent Requests
+                        </h3>
+                    </div>
+                    <div id="urgentRequestsList">
+                        <!-- Urgent requests will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Scheduling Modal -->
+    <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="color: #c1121f;">Schedule Donation Appointment</h3>
+                <span class="close" onclick="closeAppointmentModal()">&times;</span>
+            </div>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="hospitalSelect">Select Hospital *</label>
+                    <select id="hospitalSelect" name="hospitalSelect" required>
+                        <option value="">Loading hospitals...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentDate">Preferred Date *</label>
+                    <input type="date" id="appointmentDate" name="appointmentDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentTime">Preferred Time *</label>
+                    <select id="appointmentTime" name="appointmentTime" required>
+                        <option value="">Select Time Slot</option>
+                        <option value="09:00">9:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                        <option value="17:00">5:00 PM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="donationType">Donation Type *</label>
+                    <select id="donationType" name="donationType" required>
+                        <option value="">Select Donation Type</option>
+                        <option value="Whole Blood">Whole Blood</option>
+                        <option value="Platelets">Platelets</option>
+                        <option value="Plasma">Plasma</option>
+                        <option value="Double Red Cells">Double Red Cells</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="specialNotes">Special Notes (Optional)</label>
+                    <textarea id="specialNotes" name="specialNotes" rows="3" placeholder="Any special requirements or notes"></textarea>
+                </div>
+                <button type="submit" class="action-btn" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-calendar-check"></i>
+                    Schedule Appointment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Update Profile Modal -->
+    <div id="updateProfileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="color: #c1121f;">Update Profile</h3>
+                <span class="close" onclick="closeUpdateProfileModal()">&times;</span>
+            </div>
+            <form id="updateProfileForm">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div class="form-group">
+                        <label for="updateAge">Age</label>
+                        <input type="number" id="updateAge" name="age" min="18" max="65" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateGender">Gender</label>
+                        <select id="updateGender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div class="form-group">
+                        <label for="updateBloodGroup">Blood Group</label>
+                        <select id="updateBloodGroup" name="bloodGroup" required>
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateLocation">Location</label>
+                        <input type="text" id="updateLocation" name="location" placeholder="City, State" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="updateMedicalStatus">Medical Status</label>
+                    <select id="updateMedicalStatus" name="medicalStatus" required>
+                        <option value="">Select Status</option>
+                        <option value="Healthy">Healthy</option>
+                        <option value="Minor Issues">Minor Issues</option>
+                        <option value="Under Treatment">Under Treatment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="updateMedicalIssues">Medical Issues (if any)</label>
+                    <textarea id="updateMedicalIssues" name="medicalIssues" rows="3" placeholder="Describe any medical conditions or medications"></textarea>
+                </div>
+                <button type="submit" class="action-btn" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-save"></i> Update Profile
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000/api';
+        let currentDonorId = null;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get donor ID from URL params or session storage
+            const urlParams = new URLSearchParams(window.location.search);
+            currentDonorId = urlParams.get('donorId') || sessionStorage.getItem('currentUserId');
+            
+            // Check if user is logged in and is a donor
+            const userRole = sessionStorage.getItem('currentUserRole');
+            
+            if (!currentDonorId) {
+                alert('No donor ID found. Please log in again.');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            if (userRole && userRole !== 'Donor') {
+                alert('Access denied. This dashboard is for donors only.');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            console.log('Loading dashboard for donor ID:', currentDonorId);
+            loadDonorData();
+        });
+
+        // Load donor data from backend
+        async function loadDonorData() {
+            try {
+                console.log('Fetching donor data for ID:', currentDonorId);
+                const response = await fetch(`${API_BASE_URL}/donor-dashboard/${currentDonorId}`);
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('API Error:', errorData);
+                    throw new Error(`HTTP error! status: ${response.status} - ${errorData.error || 'Unknown error'}`);
+                }
+                
+                const data = await response.json();
+                console.log('Received data:', data);
+                updateDashboard(data);
+                
+            } catch (error) {
+                console.error('Error loading donor data:', error);
+                showError('Failed to load dashboard data: ' + error.message);
+            }
+        }
+
+        // Update dashboard with donor data
+        function updateDashboard(data) {
+            try {
+                console.log('Updating dashboard with data:', data);
+                
+                // Update user name
+                const userNameEl = document.getElementById('userName');
+                if (userNameEl && data.donor && data.donor.name) {
+                    userNameEl.textContent = data.donor.name;
+                } else {
+                    console.warn('userName element or donor name not found');
+                }
+                
+                // Update stats
+                const totalDonationsEl = document.getElementById('totalDonations');
+                const livesSavedEl = document.getElementById('livesSaved');
+                const healthStatusEl = document.getElementById('healthStatus');
+                const upcomingAppointmentsEl = document.getElementById('upcomingAppointments');
+                
+                if (totalDonationsEl && data.stats) {
+                    totalDonationsEl.textContent = data.stats.totalDonations || 0;
+                }
+                if (livesSavedEl && data.stats) {
+                    livesSavedEl.textContent = (data.stats.totalDonations || 0) * 3;
+                }
+                if (healthStatusEl && data.donor) {
+                    healthStatusEl.textContent = data.donor.medicalStatus || 'Not specified';
+                }
+                if (upcomingAppointmentsEl && data.stats) {
+                    upcomingAppointmentsEl.textContent = data.stats.upcomingAppointments || 0;
+                }
+                
+                // Always show as eligible - no restrictions
+            const scheduleDonationBtn = document.getElementById('scheduleDonationBtn');
+            
+            document.getElementById('nextDonation').textContent = 'Now';
+            document.getElementById('eligibilityStatus').textContent = 'Eligible to Donate';
+            document.getElementById('eligibilityStatus').className = 'eligibility-status eligible';
+            document.getElementById('eligibilityDetails').textContent = 'You can donate blood now!';
+            
+            // Always enable donation scheduling
+            scheduleDonationBtn.disabled = false;
+            scheduleDonationBtn.style.opacity = '1';
+            scheduleDonationBtn.style.cursor = 'pointer';
+            scheduleDonationBtn.innerHTML = '<i class="fas fa-calendar-plus"></i> Schedule New Donation';
+            
+                // Update sections
+                updateDonationHistory(data.donationHistory, data.upcomingAppointments);
+                updateUrgentRequests(data.urgentRequests);
+                
+                // Populate update profile form with existing data
+                populateUpdateProfileForm(data.donor);
+                
+            } catch (error) {
+                console.error('Error updating dashboard:', error);
+                showError('Failed to update dashboard display: ' + error.message);
+            }
+        }
+
+        // Populate update profile form with existing donor data
+        function populateUpdateProfileForm(donor) {
+            if (!donor) return;
+            
+            // Add null checks for all form elements
+            const updateAge = document.getElementById('updateAge');
+            const updateGender = document.getElementById('updateGender');
+            const updateBloodGroup = document.getElementById('updateBloodGroup');
+            const updateLocation = document.getElementById('updateLocation');
+            const updateMedicalStatus = document.getElementById('updateMedicalStatus');
+            const updateMedicalIssues = document.getElementById('updateMedicalIssues');
+            
+            if (updateAge) updateAge.value = donor.age || '';
+            if (updateGender) updateGender.value = donor.gender || '';
+            if (updateBloodGroup) updateBloodGroup.value = donor.bloodGroup || '';
+            if (updateLocation) updateLocation.value = donor.location || '';
+            
+            // Handle medical status and issues
+            const medicalStatus = donor.medicalStatus || '';
+            if (medicalStatus.includes(' - Notes: ')) {
+                const parts = medicalStatus.split(' - Notes: ');
+                if (updateMedicalStatus) updateMedicalStatus.value = parts[0];
+                if (updateMedicalIssues) updateMedicalIssues.value = parts[1];
+            } else {
+                if (updateMedicalStatus) updateMedicalStatus.value = medicalStatus;
+                if (updateMedicalIssues) updateMedicalIssues.value = '';
+            }
+        }
+
+        // Handle update profile form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const updateProfileForm = document.getElementById('updateProfileForm');
+            if (updateProfileForm) {
+                updateProfileForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                
+                const formData = new FormData(event.target);
+                const updateData = {
+                    userId: currentDonorId,
+                    age: parseInt(formData.get('age')),
+                    gender: formData.get('gender'),
+                    bloodGroup: formData.get('bloodGroup'),
+                    location: formData.get('location'),
+                    medicalStatus: formData.get('medicalStatus'),
+                    medicalIssues: formData.get('medicalIssues')
+                };
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/update-donor-profile`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(updateData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert('Profile updated successfully!');
+                        closeUpdateProfileModal();
+                        loadDonorData(); // Refresh dashboard data
+                    } else {
+                        throw new Error(data.error || 'Failed to update profile');
+                    }
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile: ' + error.message);
+                }
+                });
+            }
+        });
+
+        // Update donation history table
+        function updateDonationHistory(history, upcomingAppointments) {
+            const historyContainer = document.getElementById('donationHistory');
+            
+            console.log('History data:', history);
+            console.log('Upcoming appointments:', upcomingAppointments);
+            
+            // Combine upcoming appointments and past donations
+            const allRecords = [];
+            
+            // Add upcoming appointments
+            if (upcomingAppointments && upcomingAppointments.length > 0) {
+                upcomingAppointments.forEach(appointment => {
+                    console.log('Appointment record:', appointment);
+                    allRecords.push({
+                        ...appointment,
+                        isUpcoming: true
+                    });
+                });
+            }
+            
+            // Add past donations
+            if (history && history.length > 0) {
+                history.forEach(donation => {
+                    console.log('Donation record:', donation);
+                    allRecords.push({
+                        ...donation,
+                        isUpcoming: false
+                    });
+                });
+            }
+            
+            console.log('All records combined:', allRecords);
+            
+            if (allRecords.length === 0) {
+                historyContainer.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No donation history or appointments found. Schedule your first donation!</p>';
+                return;
+            }
+            
+            const table = `
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Record ID</th>
+                            <th>Verified By</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${allRecords.map((record, index) => `
+                            <tr ${record.isUpcoming ? 'style="background-color: #e8f5e8;"' : ''}>
+                                <td>${new Date(record.Donation_Date).toLocaleDateString()}</td>
+                                <td>#${record.Record_ID || (index + 1)}</td>
+                                <td>${record.Verified_By || 'System'}</td>
+                                <td>
+                                    <span class="status-badge ${record.isUpcoming ? 'status-scheduled' : 'status-completed'}">
+                                        ${record.isUpcoming ? 'Scheduled' : 'Completed'}
+                                    </span>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            historyContainer.innerHTML = table;
+        }
+
+        // Update urgent requests
+        function updateUrgentRequests(requests) {
+            const requestsCard = document.getElementById('urgentRequestsCard');
+            const requestsList = document.getElementById('urgentRequestsList');
+            
+            if (requests.length === 0) {
+                requestsCard.style.display = 'none';
+                return;
+            }
+            
+            requestsCard.style.display = 'block';
+            
+            const requestsHtml = requests.map(request => `
+                <div class="request-item">
+                    <div class="request-header">
+                        ${request.Blood_Group_Requested} Blood Needed - ${request.Quantity} units
+                    </div>
+                    <div class="request-details">
+                        Patient: ${request.Recipient_Name} | Hospital: ${request.Hospital_Name}<br>
+                        Requested: ${new Date(request.Request_Date).toLocaleDateString()}
+                    </div>
+                </div>
+            `).join('');
+            
+            requestsList.innerHTML = requestsHtml;
+        }
+
+        // Modal functions
+        function scheduleDonation() {
+            openAppointmentModal();
+        }
+
+        async function openAppointmentModal() {
+            document.getElementById('appointmentModal').classList.add('show');
+            
+            // Set minimum date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const minDate = tomorrow.toISOString().split('T')[0];
+            document.getElementById('appointmentDate').min = minDate;
+            
+            // Load hospitals
+            await loadHospitals();
+        }
+
+        function closeAppointmentModal() {
+            document.getElementById('appointmentModal').classList.remove('show');
+            document.getElementById('appointmentForm').reset();
+        }
+
+        // Update Profile functions
+        function updateProfile() {
+            openUpdateProfileModal();
+        }
+
+        function openUpdateProfileModal() {
+            document.getElementById('updateProfileModal').classList.add('show');
+            // Form will be pre-populated when dashboard loads
+        }
+
+        function closeUpdateProfileModal() {
+            document.getElementById('updateProfileModal').classList.remove('show');
+        }
+
+        // Load hospitals for appointment scheduling
+        async function loadHospitals() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/hospitals`);
+                const hospitals = await response.json();
+                
+                const hospitalSelect = document.getElementById('hospitalSelect');
+                hospitalSelect.innerHTML = '<option value="">Select Hospital</option>';
+                
+                hospitals.forEach(hospital => {
+                    const option = document.createElement('option');
+                    option.value = hospital.Hospital_ID;
+                    option.textContent = `${hospital.Hospital_Name} - ${hospital.Location}`;
+                    hospitalSelect.appendChild(option);
+                });
+                
+            } catch (error) {
+                console.error('Error loading hospitals:', error);
+                document.getElementById('hospitalSelect').innerHTML = '<option value="">Error loading hospitals</option>';
+            }
+        }
+
+        // Handle appointment form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            // ... existing initialization code ...
+            
+            // Appointment form handler
+            document.getElementById('appointmentForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const appointmentData = {
+                    donorId: currentDonorId,
+                    hospitalId: formData.get('hospitalSelect'),
+                    appointmentDate: formData.get('appointmentDate'),
+                    appointmentTime: formData.get('appointmentTime'),
+                    donationType: formData.get('donationType'),
+                    specialNotes: formData.get('specialNotes') || null
+                };
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/schedule-appointment`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(appointmentData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Show detailed success message with next eligibility date
+                        alert(data.message || 'Appointment scheduled successfully!');
+                        closeAppointmentModal();
+                        loadDonorData(); // Refresh data to show updated eligibility
+                    } else {
+                        throw new Error(data.error || 'Failed to schedule appointment');
+                    }
+                } catch (error) {
+                    console.error('Error scheduling appointment:', error);
+                    alert('Failed to schedule appointment: ' + error.message);
+                }
+            });
+
+            // Update Profile form handler
+            document.getElementById('updateProfileForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const updateData = {
+                    userId: currentDonorId,
+                    age: parseInt(formData.get('age')),
+                    gender: formData.get('gender'),
+                    bloodGroup: formData.get('bloodGroup'),
+                    location: formData.get('location'),
+                    medicalStatus: formData.get('medicalStatus'),
+                    medicalIssues: formData.get('medicalIssues')
+                };
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/update-donor-profile`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(updateData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert('Profile updated successfully!');
+                        closeUpdateProfileModal();
+                        loadDonorData(); // Refresh dashboard data
+                    } else {
+                        throw new Error(data.error || 'Failed to update profile');
+                    }
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile: ' + error.message);
+                }
+            });
+        });
+
+        function viewCertificates() {
+            alert('View Certificates feature coming soon! This will show donation certificates.');
+        }
+
+        function findBloodDrives() {
+            alert('Find Blood Drives feature coming soon! This will show nearby blood donation events.');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const appointmentModal = document.getElementById('appointmentModal');
+            const updateProfileModal = document.getElementById('updateProfileModal');
+            
+            if (event.target == appointmentModal) {
+                closeAppointmentModal();
+            } else if (event.target == updateProfileModal) {
+                closeUpdateProfileModal();
+            }
+        }
+
+        function showError(message) {
+            const container = document.querySelector('.container');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
+            container.insertBefore(errorDiv, container.firstChild);
+        }
+    </script>
+</body>
+</html>

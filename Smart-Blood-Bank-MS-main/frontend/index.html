@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Blood Bank Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Updated Typography */
+        body {
+            background-color: #fff5f5; /* Light Red/Pink */
+            color: #333;
+            font-family: 'Lato', sans-serif; /* Body font */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif; /* Heading font */
+        }
+
+        /* Header */
+        header {
+            background-color: #c1121f;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-bottom-left-radius: 8px; /* Slight roundness */
+            border-bottom-right-radius: 8px;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        /* Navigation */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        nav a, button.nav-btn {
+            text-decoration: none;
+            color: white;
+            font-weight: 600; /* Bolder links */
+            transition: color 0.3s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        nav a:hover, button.nav-btn:hover {
+            color: #f4d58d; /* Gold hover color */
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)),
+                        url('Gemini_Generated_Image_dr5rr0dr5rr0dr5r.png');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 3rem; /* Larger heading */
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #f4d58d; /* Gold color to match theme */
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            font-size: 1.3rem; /* Slightly larger text */
+            width: 70%;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            margin-top: 30px;
+            background-color: #f4d58d; /* Gold Button */
+            color: #c1121f;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #ffe5e5;
+            transform: scale(1.05); /* Added subtle hover effect */
+        }
+
+        /* Sections */
+        section {
+            padding: 50px;
+            text-align: center;
+        }
+
+        section h2 {
+            color: #c1121f;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+
+        /* Module Cards */
+        .modules {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px; /* Use gap instead of margin for better spacing */
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            width: 300px;
+            border-radius: 12px;
+            /* Modern, layered shadow using brand red for subtle glow */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(193, 18, 31, 0.05);
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: left;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 0 5px rgba(193, 18, 31, 0.1);
+        }
+
+        .card h3 {
+            color: #c1121f;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        /* Icon styling */
+        .card h3 i {
+            margin-right: 10px;
+            color: #f4d58d;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            background: #c1121f;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* Toast Message */
+        #loginMsg {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease-in;
+            z-index: 100;
+        }
+
+        /* Modal Overlays */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 380px; /* Slightly wider modal */
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            position: relative;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .modal-content h2 {
+            color: #c1121f;
+            margin-bottom: 20px;
+        }
+
+        /* Form Inputs */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus {
+            border-color: #c1121f; /* Highlight border on focus */
+            box-shadow: 0 0 5px rgba(193, 18, 31, 0.3);
+            outline: none;
+        }
+
+        .modal-content button {
+            width: 100%;
+            background-color: #c1121f;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content button:hover { background-color: #a10d19; }
+
+        .back-btn {
+            background-color: #777 !important;
+        }
+
+        .back-btn:hover {
+            background-color: #555 !important;
+        }
+        
+        /* Close Button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #999;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close:hover { color: #c1121f; }
+
+        /* Keyframe for Modal/Toast */
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Smart Blood Bank Management System</h1>
+        <nav>
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><button class="nav-btn" onclick="openModal('registerModal')">Register</button></li>
+                <li><button class="nav-btn" onclick="openModal('loginModal')">Login</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="loginMsg">Login Successful! Redirecting...</div>
+
+    <section class="hero">
+        <h2>Saving Lives Through Smart Management</h2>
+        <p>Our system digitally connects donors, stock, and recipients in real-time. Register as a donor and contribute to a smarter, faster emergency response system.</p>
+        <button class="btn" onclick="openModal('registerModal')">Become a Donor</button>
+    </section>
+
+    <section id="modules">
+        <h2>Core Functionalities</h2>
+        <div class="modules">
+            <div class="card">
+                <h3><i class="fas fa-user-plus"></i> Donor Portal</h3>
+                <p>Register, check eligibility, and view donation history. Your eligibility is automatically validated based on age and time since the last donation.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-hand-holding-medical"></i> Recipient Portal</h3>
+                <p>Request blood, view current stock availability across hospitals, and track the real-time status and compatibility of your request.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-chart-line"></i> Hospital Dashboard</h3>
+                <p>Manage blood stock, validate expiry dates, approve/reject requests, and update donation records linked to inventory.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>About Our System</h2>
+        <p style="max-width:800px;margin:20px auto;font-size:1rem;line-height:1.6;color:#444;">
+            Our platform is built to simplify and digitalize the entire blood supply chain. We use a centralized database system (Node.js/MySQL) to ensure transparency, real-time stock checks, and robust compatibility validation to save critical time during emergencies.
+        </p>
+    </section>
+
+    <footer>
+        <p> 2025 Smart Blood Bank Management System | Developed as a Mini Project</p>
+    </footer>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Step 1/2: Account Setup</h2>
+            <label for="userRole" style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Register As:</label>
+            <select id="userRole" required style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc;" autocomplete="off">
+                <option value="">Select Your Role</option>
+                <option value="Donor">Blood Donor</option>
+                <option value="Recipient">Blood Recipient</option>
+                <option value="HospitalAdmin">Hospital Administrator</option>
+                <option value="SystemAdmin">System Administrator</option>
+            </select>
+            <input type="text" id="regName" placeholder="Full Name" required autocomplete="off" name="reg_name">
+            <input type="email" id="regEmail" placeholder="Email ID (Will be your Login ID)" required autocomplete="off" name="reg_email">
+            <input type="text" id="regContact" placeholder="Contact Number" required autocomplete="off" name="reg_contact">
+            <input type="password" id="regPass" placeholder="Create Password (Min Length 6)" required autocomplete="new-password" name="reg_password">
+            <button onclick="registerAccount(this)" data-name="">Next: Complete Profile</button>
+            <button class="back-btn" onclick="closeModal('registerModal')">Cancel</button>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login</h2>
+            <input type="email" id="loginEmail" placeholder="Enter Email" required>
+            <input type="password" id="loginPass" placeholder="Enter Password" required>
+            <button onclick="login()">Login</button>
+            <button class="back-btn" onclick="closeModal('loginModal')">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        function openModal(id){ 
+            document.getElementById(id).style.display = "flex"; 
+            // Clear registration form when opening
+            if (id === 'registerModal') {
+                document.getElementById('userRole').value = '';
+                document.getElementById('regName').value = '';
+                document.getElementById('regEmail').value = '';
+                document.getElementById('regContact').value = '';
+                document.getElementById('regPass').value = '';
+            }
+            // Clear login form when opening
+            if (id === 'loginModal') {
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPass').value = '';
+            }
+        }
+        function closeModal(id){ document.getElementById(id).style.display = "none"; }
+
+        function showLoginMsg(message){
+            const msg = document.getElementById("loginMsg");
+            msg.textContent = message || "Success!";
+            msg.style.display = "block";
+            setTimeout(() => msg.style.display = "none", 3000);
+        }
+
+        // --- REVISED FUNCTIONS FOR BACKEND INTEGRATION (MANDATORY CHANGE) ---
+        // These functions now assume a Node.js server is running on localhost:3000
+        const API_BASE_URL = 'http://localhost:3000/api'; // Define API URL
+
+        async function registerAccount(buttonElement){
+            const userRole = document.getElementById("userRole").value;
+            const name = document.getElementById("regName").value.trim();
+            const email = document.getElementById("regEmail").value.trim();
+            const contact = document.getElementById("regContact").value.trim();
+            const password = document.getElementById("regPass").value.trim();
+
+            // Basic validation
+            if(!userRole || !name || !email || !contact || !password || password.length < 6){
+                alert("Error: Please fill all fields correctly including role selection (Password min 6 chars).");
+                return;
+            }
+
+            try {
+                // Step 1: Create the User account and basic record
+                const response = await fetch(`${API_BASE_URL}/register-account`, { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, contact, password, userRole })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    closeModal('registerModal');
+                    showLoginMsg(data.message || "Account created! Redirecting to profile...");
+                    
+                    // Store temporary user data (ID, Name, and Role) for Step 2
+                    sessionStorage.setItem('currentUserId', data.user_id);
+                    sessionStorage.setItem('currentUserName', name);
+                    sessionStorage.setItem('currentUserRole', userRole);
+                    
+                    // Redirect to appropriate profile completion page based on role
+                    if (userRole === 'Donor') {
+                        window.location.href = 'donor_profile.html';
+                    } else if (userRole === 'Recipient') {
+                        window.location.href = 'recipient_profile.html';
+                    } else if (userRole === 'HospitalAdmin') {
+                        window.location.href = 'hospital_profile.html';
+                    }
+                    
+                } else {
+                    alert("Account creation failed: " + (data.error || "Server error occurred."));
+                }
+            } catch (error) {
+                console.error('Registration Network Error:', error);
+                alert("Critical Error: Cannot connect to the backend server. Is Node.js running?");
+            }
+        }
+
+        async function login(){
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPass").value.trim();
+
+            if(!email || !password){
+                alert("Error: Please enter both email and password.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/login`, { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    closeModal('loginModal');
+                    showLoginMsg("Login Successful! Welcome, " + (data.user_name || "User") + ".");
+                    
+                    // Store user data in sessionStorage for all successful logins
+                    sessionStorage.setItem('currentUserId', data.user_id);
+                    sessionStorage.setItem('currentUserName', data.user_name);
+                    sessionStorage.setItem('currentUserRole', data.user_role);
+                    
+                    // Handle redirection based on completeness/role
+                    if (data.profile_complete === false) {
+                        // Redirect to appropriate profile completion page based on role
+                        if (data.user_role === 'Donor') {
+                            window.location.href = 'donor_profile.html';
+                        } else if (data.user_role === 'HospitalAdmin') {
+                            window.location.href = 'hospital_profile.html';
+                        } else if (data.user_role === 'Recipient') {
+                            window.location.href = 'recipient_profile.html';
+                        } else {
+                            window.location.href = 'donor_profile.html'; // Default
+                        }
+                    } else if (data.user_role === 'Donor') {
+                        window.location.href = 'donor_dashboard.html';
+                    } else if (data.user_role === 'HospitalAdmin') {
+                        window.location.href = 'hospital_dashboard.html';
+                    } else if (data.user_role === 'Recipient') {
+                        window.location.href = 'recipient_dashboard.html';
+                    } else if (data.user_role === 'SystemAdmin') {
+                        window.location.href = 'admin_dashboard.html';
+                    } else {
+                         window.location.href = 'index.html'; // Default redirect
+                    }
+                } else {
+                    alert("Login failed: " + (data.error || "Invalid Email or Password!"));
+                }
+            } catch (error) {
+                console.error('Login Network Error:', error);
+                alert("Critical Error: Cannot connect to the backend server. Is Node.js running?");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospital Profile Completion | Smart Blood Bank Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Updated Typography */
+        body {
+            background-color: #fff5f5; /* Light Red/Pink */
+            color: #333;
+            font-family: 'Lato', sans-serif; /* Body font */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif; /* Heading font */
+        }
+
+        /* Header */
+        header {
+            background-color: #c1121f;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-bottom-left-radius: 8px; /* Slight roundness */
+            border-bottom-right-radius: 8px;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-height: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #c1121f;
+        }
+
+        #welcomeMessage {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        /* Form Styling */
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #c1121f;
+            box-shadow: 0 0 5px rgba(193, 18, 31, 0.3);
+            outline: none;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* Button Styling */
+        .btn {
+            width: 100%;
+            margin-top: 20px;
+            background-color: #c1121f;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .btn:hover {
+            background-color: #a10d19;
+            transform: scale(1.02);
+        }
+
+        /* Back link */
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #c1121f;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Progress indicator */
+        .progress {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .progress .step {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 15px;
+            background-color: #f0f0f0;
+        }
+
+        .progress .step.active {
+            background-color: #c1121f;
+            color: white;
+        }
+
+        .progress .step.completed {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Hospital specific styling */
+        .hospital-icon {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 3rem;
+            color: #c1121f;
+        }
+
+        .info-note {
+            background-color: #f8f9fa;
+            border-left: 4px solid #c1121f;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-note i {
+            color: #c1121f;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Smart Blood Bank Management System</h1>
+        <nav>
+            <ul style="list-style: none; display: flex; gap: 25px; align-items: center;">
+                <li><a href="index.html" style="color: white; text-decoration: none; font-weight: 600;"><i class="fas fa-home"></i> Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="progress">
+            <span class="step completed">1. Account Setup</span>
+            <span class="step active">2. Hospital Details</span>
+        </div>
+
+        <div class="hospital-icon">
+            <i class="fas fa-hospital"></i>
+        </div>
+
+        <h2>Complete Hospital Information</h2>
+        <p id="welcomeMessage"></p>
+
+        <div class="info-note">
+            <i class="fas fa-info-circle"></i>
+            <strong>Note:</strong> This information will be used to verify your hospital and manage blood bank operations. Ensure all details are accurate.
+        </div>
+        
+        <form id="hospitalForm">
+            <label for="hospitalName">Official Hospital Name:</label>
+            <input type="text" id="hospitalName" placeholder="Enter complete hospital name as per registration" required>
+
+            <label for="licenseNumber">Hospital License Number:</label>
+            <input type="text" id="licenseNumber" placeholder="Enter unique hospital license/registration number" required>
+
+            <label for="hospitalType">Hospital Type:</label>
+            <select id="hospitalType" required>
+                <option value="">Select Hospital Type</option>
+                <option value="Government">Government Hospital</option>
+                <option value="Private">Private Hospital</option>
+                <option value="NGO">NGO/Trust Hospital</option>
+            </select>
+
+            <label for="location">Complete Hospital Address:</label>
+            <textarea id="location" placeholder="Enter full address including street, area, city, state, and pincode" required></textarea>
+
+            <label for="contactInfo">Primary Contact Information:</label>
+            <textarea id="contactInfo" placeholder="Enter phone numbers, email, and emergency contact details for blood bank department" required></textarea>
+
+            <button type="button" class="btn" onclick="completeHospitalProfile()">
+                <i class="fas fa-check-circle"></i> Complete Registration & Access Dashboard
+            </button>
+        </form>
+
+        <div class="back-link">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000/api';
+        
+        // Retrieve ID/Name from temporary storage
+        const currentUserId = sessionStorage.getItem('currentUserId');
+        const currentUserName = sessionStorage.getItem('currentUserName');
+
+        // Check if user data exists
+        if (!currentUserId || !currentUserName) {
+            alert("Error: Missing user session data. Please register or log in again.");
+            window.location.href = 'index.html';
+        } else {
+            document.getElementById('welcomeMessage').textContent = `Welcome, ${currentUserName}! Please complete your hospital information to activate your administrator account.`;
+        }
+
+        // Function to submit the hospital profile details
+        async function completeHospitalProfile() {
+            if (!currentUserId) {
+                alert("Error: Missing user session data. Please log in again.");
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const hospitalName = document.getElementById("hospitalName").value.trim();
+            const licenseNumber = document.getElementById("licenseNumber").value.trim();
+            const hospitalType = document.getElementById("hospitalType").value;
+            const location = document.getElementById("location").value.trim();
+            const contactInfo = document.getElementById("contactInfo").value.trim();
+
+            if (!hospitalName || !licenseNumber || !hospitalType || !location || !contactInfo) {
+                alert("Please fill all mandatory fields with complete information.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/complete-hospital-profile`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        userId: currentUserId, 
+                        hospitalName, 
+                        licenseNumber,
+                        hospitalType,
+                        location, 
+                        contactInfo 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message || "Hospital profile completed successfully! Welcome to the blood bank management system.");
+                    // Keep session data for dashboard access
+                    window.location.href = 'hospital_dashboard.html'; // Redirect to hospital dashboard
+                } else {
+                    alert("Profile completion failed: " + (data.error || "Server error occurred."));
+                }
+            } catch (error) {
+                console.error('Hospital Profile Completion Network Error:', error);
+                alert("Critical Error: Cannot connect to the backend server. Please try again.");
+            }
+        }
+
+        // Prevent form submission on Enter key
+        document.getElementById('hospitalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            completeHospitalProfile();
+        });
+    </script>
+</body>
+</html>
